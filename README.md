@@ -135,8 +135,9 @@ This script initializes Ollama with persistent model caching and establishes the
 
 ## 6. Project Roadmap and Backlog
 
-Sprint goals, active user stories, and task allocations are tracked in:
-- [Engineering Backlog](BACKLOG.md)
+Sprint goals, upcoming engineering packages, and active user stories are tracked in:
+- [Engineering Roadmap (Upcoming Releases & 28+ Hours Planned)](ROADMAP.md)
+- [Engineering Backlog & User Stories](BACKLOG.md)
 - [Product Specification](docs/OPENNAVY_SPECIFICATION.md)
 - [Hackathon Runbook](HACKATHON_RUNBOOK.md)
 
