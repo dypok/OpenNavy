@@ -1,22 +1,22 @@
-# ADR-0001: Adopcion de Architecture Decision Records (ADR)
+# ADR-0001: Adoption of Architectural Decision Records (ADR)
 
-## Estado
-Aceptado
+## Status
+Accepted
 
-## Contexto
-OpenNavy es un proyecto de software de codigo abierto desarrollado colaborativamente por múltiples contribuidores y equipos distribuidos. A medida que el sistema evoluciona bajo un ritmo acelerado de desarrollo, las decisiones arquitectónicas clave corren el riesgo de perderse en hilos de conversacion, mensajes efímeros o suposiciones implícitas en el código fuente.
+## Context
+OpenNavy is an open-source software project developed collaboratively across distributed contributors. As the system evolves under rapid development cycles, critical architectural decisions risk being lost in ephemeral chat threads or implicit assumptions embedded within the code.
 
 ## Decision
-Se adopta el formato MADR (Markdown Architectural Decision Records) para registrar formalmente cada decisión de diseño, tecnología, protocolo y arquitectura del proyecto dentro del directorio `docs/adr/`.
+The MADR (Markdown Architectural Decision Records) format is formally adopted to document every architectural, technology, and protocol decision within `docs/adr/`.
 
-Cada documento debe numerarse secuencialmente (`0001`, `0002`, etc.) y detallar:
-* Estado (Propuesto, Aceptado, Rechazado, Obsoleto)
-* Contexto y planteamiento del problema
-* Opciones evaluadas con ventajas y desventajas
-* Decisión final y justificación
-* Consecuencias técnicas positivas y negativas
+Each record is numbered sequentially (`0001`, `0002`, etc.) and outlines:
+* Status (Proposed, Accepted, Rejected, Deprecated)
+* Context and problem statement
+* Evaluated options with trade-offs
+* Decision outcome and justification
+* Positive and negative technical consequences
 
-## Consecuencias
-* Positivo: Trazabilidad total para nuevos colaboradores de la comunidad open source.
-* Positivo: Reducción de debates repetitivos sobre decisiones ya fundamentadas.
-* Negativo: Sobrecarga menor de documentación al introducir cambios estructurales.
+## Consequences
+* Positive: Complete architectural traceability for open-source contributors and reviewers.
+* Positive: Reduction of repetitive debates regarding previously established engineering foundations.
+* Negative: Minor documentation overhead when introducing structural changes.

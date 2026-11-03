@@ -1,24 +1,24 @@
-# ADR-0003: Inferencia Soberana Local-First con Google Gemma 4
+# ADR-0003: Sovereign Local-First Inference with Google Gemma 4
 
-## Estado
-Aceptado
+## Status
+Accepted
 
-## Contexto
-Los desarrolladores que colaboran en proyectos open source o trabajan en organizaciones bajo estrictas regulaciones de privacidad (banca, salud, defensa) no pueden enviar código fuente confidencial ni propiedad intelectual a APIs públicas en la nube (como OpenAI o Anthropic). Al mismo tiempo, el sistema requiere capacidades avanzadas de razonamiento para interpretar issues y correlacionarlos con el AST.
+## Context
+Developers collaborating on open-source projects or working within privacy-regulated environments (finance, healthcare, defense) cannot transmit proprietary source code to public cloud APIs (such as OpenAI or Anthropic). Concurrently, the platform requires advanced architectural reasoning to interpret incoming issues and correlate them with the repository AST.
 
-## Opciones Evaluadas
-1. **Modelos Cloud (OpenAI GPT-4o / Claude 3.5 Sonnet):** Alta calidad de código, pero rompe el requisito de soberanía, genera costos por token y requiere conexión constante a internet.
-2. **Modelos Locales de 70B+ Parámetros:** Imposibles de ejecutar en laptops de desarrollo estándar durante hackathons o sprints locales sin servidores con múltiples GPUs de alta gama.
-3. **Google Gemma 4 (Variantes e4b y e2b):** Modelos de pesos abiertos, ligeros, con soporte de razonamiento nativo (<|think|>), capacidades multimodales de visión y consumo moderado de memoria (3.5 GB a 6.6 GB).
+## Considered Options
+1. **Cloud Commercial Models (OpenAI GPT-4o / Claude 3.5 Sonnet):** High reasoning output, but breaches data sovereignty requirements, incurs per-token recurring costs, and mandates persistent internet connectivity.
+2. **70B+ Parameter Open Models:** Impractical for commodity developer laptops during local hackathons or off-grid sprints without enterprise multi-GPU hardware.
+3. **Google Gemma 4 (e4b and e2b Variants):** Open-weights architectures featuring native reasoning traces (`<|think|>`), multimodal vision capabilities, and modest memory footprints (3.5 GB to 6.6 GB).
 
 ## Decision
-Se adopta **Google Gemma 4** ejecutado localmente mediante **Ollama** con la siguiente jerarquía:
-* **Modelo Primario:** `gemma4:e4b` (cuantización Q4_K_M). Balance óptimo de razonamiento arquitectónico, seguimiento de esquemas JSON estructurados y velocidad en CPU/GPU.
-* **Modelo de Contingencia:** `gemma4:e2b`. Para dispositivos con restricciones térmicas o de memoria RAM (< 8 GB).
-* **Parámetros del Servidor Host:** `OLLAMA_ORIGINS=*`, `OLLAMA_KEEP_ALIVE=-1` (para evitar descargas del modelo entre peticiones) y `OLLAMA_NUM_PARALLEL=2`.
+Adopt **Google Gemma 4** executed locally via **Ollama** using the following hierarchy:
+* **Primary Tier:** `gemma4:e4b` (Q4_K_M quantization). Balances deep architectural reasoning, strict JSON contract compliance, and local CPU/GPU throughput.
+* **Fallback Tier:** `gemma4:e2b`. For resource-constrained hardware or memory profiles under 8 GB RAM.
+* **Server Daemon Settings:** `OLLAMA_ORIGINS=*`, `OLLAMA_KEEP_ALIVE=-1` (maintains active model in RAM across requests), and `OLLAMA_NUM_PARALLEL=2`.
 
-## Consecuencias
-* Positivo: Cero telemetría externa. Cumplimiento absoluto de soberanía de datos (Air-Gapped Ready).
-* Positivo: Costo de inferencia cero dólares para la comunidad open source.
-* Positivo: Exposición transparente del proceso de razonamiento del modelo a través de la interfaz de usuario.
-* Negativo: La velocidad de generación depende del hardware de la máquina anfitriona (9 a 12 tokens/s en CPU, 30 a 50 tokens/s en GPU).
+## Consequences
+* Positive: Zero external telemetry. Complete compliance with air-gapped environments.
+* Positive: Zero operational subscription or inference token costs.
+* Positive: Direct visibility into the model's intermediate reasoning trace in the cockpit UI.
+* Negative: Token generation rate is tied to local host hardware specs (10-15 tokens/s on modern CPU, 30-50 tokens/s on GPU).

@@ -1,36 +1,36 @@
-# ADR-0005: Flujo de Trabajo GitFlow y Commits Convencionales
+# ADR-0005: GitFlow Branching Model and Conventional Commits
 
-## Estado
-Aceptado
+## Status
+Accepted
 
-## Contexto
-OpenNavy se publica como un proyecto open source de alto impacto técnico. Mantener una historia de Git descuidada con commits masivos ("fix everything", "update code") daña la credibilidad del proyecto ante jueces de hackathons, revisores técnicos de la comunidad y mantenedores de software libre.
+## Context
+OpenNavy is released as an open-source project targeting high engineering standards. A disorganized Git history filled with vague messages ("fix everything", "update code") diminishes technical credibility when reviewed by open-source maintainers, community evaluators, and hackathon judges.
 
 ## Decision
-Se adopta formalmente el estándar GitFlow complementado con la especificación de Commits Convencionales (Conventional Commits v1.0.0):
+Formally adopt the GitFlow workflow complemented by the Conventional Commits v1.0.0 specification:
 
-### 1. Modelo de Ramas (GitFlow)
-* **`main`:** Rama de producción protegida. Solo contiene versiones estables y etiquetadas listas para entrega.
-* **`develop`:** Rama principal de integración donde confluyen las características completadas y probadas.
-* **`feature/<nombre>`:** Ramas efímeras creadas a partir de `develop` para desarrollar historias de usuario específicas del backlog (ej. `feature/course-plotter-ui`, `feature/sonar-collision-radar`).
-* **`hotfix/<nombre>`:** Correcciones críticas derivadas de `main`.
+### 1. Branching Model (GitFlow)
+* **`main`:** Protected production release baseline. Contains only stable, tagged, release-ready deliverables.
+* **`develop`:** Primary integration branch where completed and verified features converge.
+* **`feature/<name>`:** Short-lived branches created from `develop` to implement discrete backlog user stories (e.g., `feature/course-plotter-ui`, `feature/sonar-collision-radar`).
+* **`hotfix/<name>`:** Critical patches branched directly from `main`.
 
-### 2. Estándar de Mensajes de Commit
-Cada commit debe ser atómico y seguir el formato:
-`<tipo>(<alcance>): <descripcion concisa en minusculas>`
+### 2. Commit Message Standards
+Every commit must be atomic and follow the standard structure:
+`<type>(<scope>): <concise description in lowercase>`
 
-Tipos permitidos:
-* `feat`: Nueva funcionalidad para el usuario.
-* `fix`: Corrección de un defecto o bug.
-* `docs`: Cambios exclusivos en documentación técnica.
-* `refactor`: Modificación de código que no altera funcionalidad ni corrige bugs.
-* `test`: Adición o corrección de pruebas unitarias/integración.
-* `chore`: Mantenimiento de scripts de build o dependencias.
+Allowed types:
+* `feat`: New user-facing capability.
+* `fix`: Bug or defect correction.
+* `docs`: Technical documentation additions or modifications.
+* `refactor`: Code reorganization without functional or behavioral changes.
+* `test`: Adding or adjusting unit and integration test suites.
+* `chore`: Build configuration or dependency maintenance.
 
-### 3. Reglas de Estilo
-* Estrictamente prohibido el uso de emojis en mensajes de commit, documentación técnica formal y contratos de código para mantener máxima legibilidad en terminales y herramientas CI/CD estándar.
+### 3. Style Constraints
+* Use of emojis in commit messages, technical documentation, and code contracts is strictly prohibited to maintain readability across terminal environments and CI/CD tools.
 
-## Consecuencias
-* Positivo: Trazabilidad profesional de cada incremento de valor.
-* Positivo: Generación automatizada de changelogs y notas de release.
-* Positivo: Facilidad para revisión de código por pares en Pull Requests.
+## Consequences
+* Positive: Granular, professional audit trail for every increment of value.
+* Positive: Automated generation of changelogs and release notes.
+* Positive: Streamlined peer review process during Pull Request inspection.

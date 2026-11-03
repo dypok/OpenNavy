@@ -29,17 +29,17 @@ const CodeBlock: React.FC<{ language: string; value: string }> = ({ language, va
           type="button"
           onClick={handleCopy}
           className="inline-flex items-center gap-1 text-white/80 hover:text-white transition-colors"
-          title="Copiar código"
+          title="Copy code"
         >
           {copied ? (
             <>
               <Check className="size-3 text-emerald-400" />
-              <span className="text-emerald-400">Copiado</span>
+              <span className="text-emerald-400">Copied</span>
             </>
           ) : (
             <>
               <Copy className="size-3" />
-              <span>Copiar</span>
+              <span>Copy</span>
             </>
           )}
         </button>
@@ -169,7 +169,7 @@ export const AiMessageRenderer: React.FC<AiMessageRendererProps> = ({
                   type="button"
                   onClick={() => onOpenFile?.(filePath, [startLine, endLine])}
                   className="inline-flex items-center gap-1 mx-1 px-2 py-0.5 border border-[#003893]/40 bg-[#003893]/10 text-[#003893] font-mono text-[11px] align-baseline hover:bg-[#003893] hover:text-white transition-colors cursor-pointer font-medium"
-                  title={`Abrir ${filePath} en líneas ${startLine}-${endLine}`}
+                  title={`Open ${filePath} at lines ${startLine}-${endLine}`}
                 >
                   <Code2 className="size-3 text-[#003893] group-hover:text-white" />
                   <span>{children}</span>
@@ -214,14 +214,14 @@ export const AiMessageRenderer: React.FC<AiMessageRendererProps> = ({
       {/* Code Citations bottom badge list */}
       {citations && citations.length > 0 && (
         <div className="mt-3 pt-2.5 border-t border-border-subtle/60 flex flex-wrap gap-1.5 items-center">
-          <span className="font-mono text-[10px] text-text-muted mr-1">Citas de código:</span>
+          <span className="font-mono text-[10px] text-text-muted mr-1">Code citations:</span>
           {citations.map((c, i) => (
             <button
               key={i}
               type="button"
               onClick={() => onOpenFile?.(c.file_path, [c.start_line, c.end_line])}
               className="inline-flex items-center gap-1 px-2 py-0.5 border border-[#003893]/30 bg-surface-2 text-[#003893] font-mono text-[10px] hover:bg-[#003893] hover:text-white transition-colors font-medium"
-              title={`Ir a ${c.file_path}:${c.start_line}-${c.end_line}`}
+              title={`Navigate to ${c.file_path}:${c.start_line}-${c.end_line}`}
             >
               <Code2 className="size-3 text-[#003893]" />
               <span>{c.file_path}:{c.start_line}-{c.end_line}</span>

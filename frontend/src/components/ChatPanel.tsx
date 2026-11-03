@@ -27,7 +27,7 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({ repoId }) => {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
-      content: '¡Hola! Soy OpenNavy AI Copilot. Puedes preguntarme sobre las métricas de este repositorio, por qué se violó algún principio SOLID, o cómo solucionar las dependencias circulares con Google Gemma 4.',
+      content: 'Hello! I am the OpenNavy AI Copilot. Ask me about architectural health metrics, SOLID principle compliance, cyclomatic complexity, or how to resolve circular dependencies using Google Gemma 4.',
       timestamp: new Date(),
     },
   ]);
@@ -38,9 +38,9 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({ repoId }) => {
   const codeViewerRef = useRef<HTMLDivElement>(null);
 
   const quickQuestions = [
-    '¿Cuáles son las violaciones de principios SOLID detectadas?',
-    '¿Cómo puedo solucionar las dependencias circulares?',
-    '¿Qué funciones tienen la mayor complejidad ciclomática?',
+    'What are the detected SOLID principle violations?',
+    'How can I resolve the circular dependencies?',
+    'Which functions have the highest cyclomatic complexity?',
   ];
 
   const openSplitCode = async (filePath: string, range?: [number, number]) => {
@@ -253,7 +253,7 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({ repoId }) => {
                   {m.citations && m.citations.length > 0 && (
                     <div className="mt-2.5 pt-2 border-t border-border-subtle flex items-center gap-1.5 flex-wrap">
                       <Code2 className="size-3 text-brand" />
-                      <span className="font-mono text-[11px] text-brand">Citas interactivas:</span>
+                      <span className="font-mono text-[11px] text-brand">Interactive citations:</span>
                       {m.citations.map((c, cIdx) => (
                         <button
                           key={cIdx}
@@ -271,7 +271,7 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({ repoId }) => {
                   {m.cited_sources && m.cited_sources.length > 0 && (
                     <div className="mt-2.5 pt-2 border-t border-border-subtle flex items-center gap-1.5 flex-wrap">
                       <BookOpen className="size-3 text-cyan-400" />
-                      <span className="font-mono text-[11px] text-text-muted">Fuentes RAG:</span>
+                      <span className="font-mono text-[11px] text-text-muted">RAG sources:</span>
                       {m.cited_sources.map((src, sIdx) => (
                         <span
                           key={sIdx}
@@ -290,7 +290,7 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({ repoId }) => {
           {isLoading && (
             <div className="flex items-center gap-2 font-mono text-xs text-brand">
               <Loader2 className="size-4 animate-spin text-brand" />
-              <span>Consultando rúbrica RAG y base de conocimiento...</span>
+              <span>Consulting RAG rubric and knowledge base...</span>
             </div>
           )}
         </div>
@@ -307,8 +307,8 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({ repoId }) => {
             type="text"
             placeholder={
               repoId
-                ? 'Escribe una pregunta sobre el código, arquitectura o principios SOLID...'
-                : 'Selecciona un repositorio primero'
+                ? 'Ask a question about the code, architecture, or SOLID principles...'
+                : 'Select a repository first'
             }
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -326,7 +326,7 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({ repoId }) => {
         </form>
       </div>
 
-      {/* ── PANEL SPLIT CODE VIEWER (Derecha) ── */}
+      {/* ── PANEL SPLIT CODE VIEWER (Right) ── */}
       {splitViewer && (
         <div className="border border-brand/40 bg-bg-deep flex flex-col h-full min-w-0 overflow-hidden">
           {/* Header del split view */}
@@ -354,14 +354,14 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({ repoId }) => {
                 className="font-mono text-xs px-2.5 py-1 border border-border-subtle bg-surface-2 hover:border-brand/40 text-text-secondary hover:text-text flex items-center gap-1.5 transition-colors disabled:opacity-40"
               >
                 {copiedCode ? <Check className="size-3 text-emerald-400" /> : <Copy className="size-3" />}
-                <span>{copiedCode ? 'Copiado' : 'Copiar'}</span>
+                <span>{copiedCode ? 'Copied' : 'Copy'}</span>
               </button>
 
               <button
                 type="button"
                 onClick={closeSplitView}
                 className="p-1 border border-border-subtle bg-surface-2 hover:border-brand/40 text-text-secondary hover:text-text transition-colors"
-                title="Cerrar vista dividida"
+                title="Close split view"
               >
                 <X className="size-4" />
               </button>
@@ -376,7 +376,7 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({ repoId }) => {
             {splitViewer.loading ? (
               <div className="flex items-center justify-center h-full gap-2 font-mono text-xs text-text-muted">
                 <Loader2 className="size-4 animate-spin text-brand" />
-                Cargando código fuente...
+                Loading source code...
               </div>
             ) : splitViewer.error ? (
               <div className="border border-red-200 bg-red-50 text-red-700 p-4 font-mono text-xs">
@@ -411,7 +411,7 @@ export const ChatPanel: React.FC<ChatPanelProps> = ({ repoId }) => {
               })
             ) : (
               <div className="text-text-muted text-center py-20 font-mono text-xs">
-                El archivo está vacío.
+                The file is empty.
               </div>
             )}
           </div>

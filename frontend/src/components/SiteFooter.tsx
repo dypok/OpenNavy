@@ -4,14 +4,14 @@ import { PixelBackdrop } from '@/components/HeroShader'
 
 const columns = [
   {
-    title: 'Navegación',
+    title: 'Navigation',
     links: [
-      { label: 'Inicio', href: '#home' },
-      { label: 'Explorador y copiloto', href: '#workspace' },
+      { label: 'Home', href: '#home' },
+      { label: 'Explorer & Copilot', href: '#workspace' },
     ],
   },
   {
-    title: 'Tripulación',
+    title: 'Crew',
     links: [
       { label: 'Daniel Echeverría', href: 'https://github.com/Dan18eP' },
       { label: 'Dylan Gamero', href: 'https://github.com/dypok' },
@@ -19,9 +19,9 @@ const columns = [
     ],
   },
   {
-    title: 'Comunidad',
+    title: 'Community',
     links: [
-      { label: 'GitHub OpenNavy', href: 'https://github.com/Dan18eP/OpenNavy' },
+      { label: 'GitHub OpenNavy', href: 'https://github.com/dypok/OpenNavy' },
       { label: 'Hacktoberfest 2026', href: 'https://hacktoberfest.com' },
     ],
   },
@@ -64,7 +64,7 @@ export function SiteFooter({ onHomeClick }: { onHomeClick?: () => void }) {
               data-quiet
               className="mt-3 text-sm leading-relaxed text-text-muted [text-wrap:pretty]"
             >
-              The Sovereign Fleet Navigator for Open Source Codebases. Desarrollado por Daniel Echeverría, Dylan Gamero y Brandon Carranza bajo Licencia MIT.
+              The Sovereign Fleet Navigator for Open Source Codebases. Developed by Daniel Echeverría, Dylan Gamero, and Brandon Carranza under the MIT License.
             </p>
           </div>
 
@@ -90,7 +90,7 @@ export function SiteFooter({ onHomeClick }: { onHomeClick?: () => void }) {
 
         <div className="mt-8 flex flex-col gap-2 border-t border-border-subtle pt-4 text-xs font-mono text-text-muted sm:flex-row sm:items-center sm:justify-between">
           <p data-quiet>
-            OpenNavy™ · Licencia MIT · Major League Hacking 2026
+            OpenNavy™ · MIT License · Major League Hacking 2026
           </p>
           <p data-quiet>
             Google DeepMind Gemma 4 & DigitalOcean Hacktoberfest

@@ -71,8 +71,8 @@ export const OpenNavyHeader: React.FC<PraxiaHeaderProps> = ({
 
   // Only two navigation tabs without badges
   const navLinks: { id: TabType; label: string }[] = [
-    { id: 'overview', label: 'Inicio' },
-    { id: 'workspace', label: 'Explorador y copiloto' },
+    { id: 'overview', label: 'Home' },
+    { id: 'workspace', label: 'Explorer & Copilot' },
   ]
 
   return (
@@ -189,8 +189,8 @@ export const OpenNavyHeader: React.FC<PraxiaHeaderProps> = ({
               )}
               title={
                 activeCollisions.length > 0
-                  ? "Alerta de colisión arquitectónica activa"
-                  : "Fleet Sonar LAN activo"
+                  ? "Active architectural collision alert"
+                  : "Fleet Sonar LAN active"
               }
             >
               <Radio
@@ -205,7 +205,7 @@ export const OpenNavyHeader: React.FC<PraxiaHeaderProps> = ({
               />
               <span className="text-[11px] text-text-muted hidden md:inline">Sonar:</span>
               <span className="text-[11px] font-bold">
-                {activeCollisions.length > 0 ? "COLISIÓN" : `${sonarCrew.length} en red`}
+                {activeCollisions.length > 0 ? "COLLISION" : `${sonarCrew.length} online`}
               </span>
             </button>
 
@@ -214,13 +214,13 @@ export const OpenNavyHeader: React.FC<PraxiaHeaderProps> = ({
               <Button
                 variant="ghost"
                 size="icon"
-                aria-label="Tripulación de OpenNavy"
+                aria-label="OpenNavy Crew"
                 onClick={() => setTeamDropdownOpen(!teamDropdownOpen)}
                 className={cn(
                   "hidden sm:inline-flex h-8 w-8 text-text-secondary hover:text-[#E73427] transition-colors border border-transparent hover:border-border-subtle",
                   teamDropdownOpen && "bg-surface-2 text-[#E73427] border-border-strong"
                 )}
-                title="Tripulación de OpenNavy"
+                title="OpenNavy Crew"
               >
                 <Users className="size-4" />
               </Button>
@@ -233,9 +233,9 @@ export const OpenNavyHeader: React.FC<PraxiaHeaderProps> = ({
                   <div className="flex items-center justify-between pb-2 border-b border-border-subtle mb-2.5">
                     <div className="flex items-center gap-1.5 text-text font-bold">
                       <Anchor className="size-3.5 text-[#E73427]" />
-                      <span>Tripulación OpenNavy (3)</span>
+                      <span>OpenNavy Crew (3)</span>
                     </div>
-                    <span className="text-[10px] text-text-muted">Oficiales</span>
+                    <span className="text-[10px] text-text-muted">Officers</span>
                   </div>
 
                   <div className="space-y-2">
@@ -265,7 +265,7 @@ export const OpenNavyHeader: React.FC<PraxiaHeaderProps> = ({
                               target="_blank"
                               rel="noopener noreferrer"
                               className="p-1 border border-border-subtle hover:border-[#0077B5] hover:text-[#0077B5] text-text-secondary transition-colors"
-                              title={`LinkedIn de ${member.name}`}
+                              title={`LinkedIn: ${member.name}`}
                             >
                               <Linkedin className="size-3" />
                             </a>
@@ -276,7 +276,7 @@ export const OpenNavyHeader: React.FC<PraxiaHeaderProps> = ({
                               target="_blank"
                               rel="noopener noreferrer"
                               className="p-1 border border-border-subtle hover:border-text hover:text-text text-text-secondary transition-colors"
-                              title={`GitHub de ${member.name}`}
+                              title={`GitHub: ${member.name}`}
                             >
                               <GithubIcon className="size-3" />
                             </a>
@@ -293,7 +293,7 @@ export const OpenNavyHeader: React.FC<PraxiaHeaderProps> = ({
                     }}
                     className="w-full mt-2.5 py-1.5 border border-[#E73427]/40 bg-[#E73427]/10 hover:bg-[#E73427] text-[#E73427] hover:text-white text-center text-[11px] font-semibold transition-colors block cursor-pointer"
                   >
-                    Ver Tripulación Completa
+                    View Full Crew
                   </button>
                 </div>
               )}
@@ -307,7 +307,7 @@ export const OpenNavyHeader: React.FC<PraxiaHeaderProps> = ({
               className="hidden sm:inline-flex h-8 w-8 text-text-secondary hover:text-text border border-transparent hover:border-border-subtle"
               render={
                 <a
-                  href="https://github.com/Dan18eP/OpenNavy"
+                  href="https://github.com/dypok/OpenNavy"
                   target="_blank"
                   rel="noopener noreferrer"
                 />
@@ -369,10 +369,10 @@ export const OpenNavyHeader: React.FC<PraxiaHeaderProps> = ({
                 className="flex items-center justify-center gap-2 px-3 py-2 border border-border-subtle hover:border-[#E73427]/40 bg-surface text-text-secondary hover:text-[#E73427] font-mono text-xs transition-colors"
               >
                 <Users className="size-3.5" />
-                <span>Tripulación OpenNavy (3 Oficiales)</span>
+                <span>OpenNavy Crew (3 Officers)</span>
               </button>
               <div className="flex items-center justify-between text-xs text-text-muted font-mono pt-1">
-                <span>{totalRepos} repos activos</span>
+                <span>{totalRepos} active repos</span>
                 <span>OpenNavy v1.0 · MIT</span>
               </div>
             </div>

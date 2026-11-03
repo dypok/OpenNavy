@@ -16,7 +16,7 @@ export const OPENNAVY_TEAM: TeamMember[] = [
     name: 'Daniel Echeverría',
     role: 'Lead Architect & Backend Core',
     initials: 'DE',
-    bio: 'Arquitectura de software y gobierno de ADRs. Motor central con Tree-sitter AST, grafo de Tarjan SCC e inferencia local soberana con Google Gemma 4.',
+    bio: 'Software architecture governance and ADR documentation. Core analysis engine with Tree-sitter AST, Tarjan SCC dependency graph, and local sovereign inference with Google Gemma 4.',
     github: 'https://github.com/Dan18eP',
     linkedin: 'https://www.linkedin.com/in/dechever23/',
   },
@@ -24,7 +24,7 @@ export const OPENNAVY_TEAM: TeamMember[] = [
     name: 'Dylan Gamero',
     role: 'Real-Time & Systems Engineer',
     initials: 'DG',
-    bio: 'Radar de colisión arquitectónica y presencia LAN multijugador con WebSockets. Sincronización del Shared Blueprint y validación de red local.',
+    bio: 'Architectural collision radar and LAN multiplayer presence with WebSockets. Shared Blueprint synchronization and local network mesh validation.',
     github: 'https://github.com/dypok',
     linkedin: 'https://www.linkedin.com/in/dylan-gamero/',
   },
@@ -32,7 +32,7 @@ export const OPENNAVY_TEAM: TeamMember[] = [
     name: 'Brandon Carranza',
     role: 'Frontend Engineer & Cockpit Navigator',
     initials: 'BC',
-    bio: 'Interfaz de cabina de navegación náutica con React 18, Tailwind y estética pixelada. Visor split-view interactivo sincronizado con waypoints de Gemma 4.',
+    bio: 'Nautical navigation cockpit interface built with React 18, Tailwind CSS, and pixel aesthetics. Interactive split-view AST viewer synchronized with Gemma 4 waypoints.',
     github: 'https://github.com/brandoncarranza',
     linkedin: 'https://www.linkedin.com/in/brandon-carranza/',
   },
@@ -63,22 +63,22 @@ export const CreditsModal: React.FC<CreditsModalProps> = ({ isOpen, onClose }) =
           <div>
             <div className="flex items-center gap-2">
               <span className="font-mono text-xs px-2 py-0.5 border border-brand/40 bg-brand-soft text-brand font-semibold">
-                TRIPULACIÓN OPENNAVY
+                OPENNAVY CREW
               </span>
-              <span className="font-mono text-xs text-text-muted">3 Oficiales</span>
+              <span className="font-mono text-xs text-text-muted">3 Officers</span>
             </div>
             <h2 className="font-sans text-xl font-bold tracking-tight text-text mt-1.5">
-              Tripulación & Desarrolladores
+              Crew & Core Engineers
             </h2>
             <p className="font-mono text-xs text-text-muted mt-0.5">
-              Equipo de ingeniería responsable de la arquitectura, inferencia local con Gemma 4 y cabina náutica de OpenNavy
+              Engineering team responsible for software architecture, local Gemma 4 inference, and the OpenNavy nautical cockpit
             </p>
           </div>
 
           <button
             onClick={onClose}
             className="text-text-muted hover:text-text p-1.5 border border-transparent hover:border-border-subtle transition-colors"
-            aria-label="Cerrar modal"
+            aria-label="Close modal"
           >
             <X className="size-5" />
           </button>
@@ -161,7 +161,7 @@ export const CreditsModal: React.FC<CreditsModalProps> = ({ isOpen, onClose }) =
             <ShieldCheck className="size-4 text-emerald-600" />
             <span>OpenNavy · The Sovereign Fleet Navigator</span>
           </div>
-          <span>Licencia MIT · MLH Hacktoberfest 2026</span>
+          <span>MIT License · MLH Hacktoberfest 2026</span>
         </div>
       </div>
     </div>

@@ -1,47 +1,47 @@
-# Arquitectura de Software de OpenNavy
+# OpenNavy Software Architecture Specification
 
-## 1. Vision General y Principios de Diseno
+## 1. Overview and Design Principles
 
-OpenNavy está diseñado siguiendo los principios de la Arquitectura Hexagonal (Puertos y Adaptadores) y Clean Architecture, priorizando la soberanía de datos, el aislamiento determinista y la mantenibilidad por parte de la comunidad de código abierto.
+OpenNavy is architected following the principles of Hexagonal Architecture (Ports and Adapters) and Clean Architecture, prioritizing data sovereignty, deterministic isolation, and maintainability for the open-source community.
 
-### Principios Fundamentales:
-1. **Soberania Local-First:** El sistema debe operar en su totalidad sin conexión a internet externa. La inferencia de lenguaje, el análisis sintáctico y la coordinación multijugador ocurren dentro del perímetro de la máquina o de la red de área local (LAN).
-2. **Determinismo Estructural sobre Alucinacion de IA:** La búsqueda de funciones, clases y grafos de dependencias la resuelven algoritmos deterministas (Tree-sitter y Algoritmo de Tarjan). La IA generativa (Google Gemma 4) se utiliza exclusivamente como capa de síntesis, razonamiento y planificación.
-3. **Bajo Acoplamiento y Alta Cohesion:** La lógica de análisis de código no conoce frameworks web ni librerías de inferencia. Cualquier componente de infraestructura puede sustituirse sin alterar el dominio.
+### Core Principles:
+1. **Local-First Sovereignty:** The system operates entirely without external internet connectivity. Language inference, syntax analysis, and multiplayer coordination occur strictly within the machine boundary or local area network (LAN).
+2. **Structural Determinism over AI Hallucination:** Function lookup, class resolution, and dependency graph generation are solved deterministically via Tree-sitter AST parsing and Tarjan's Strongly Connected Components (SCC) algorithm. Generative AI (Google Gemma 4) serves exclusively as a reasoning, synthesis, and planning layer.
+3. **Loose Coupling and High Cohesion:** Code analysis logic contains no web framework or inference library dependencies. Any infrastructure adapter can be swapped without touching domain logic.
 
 ---
 
-## 2. Diagrama Estructural por Capas
+## 2. Layered Architecture Diagram
 
 ```mermaid
 flowchart TD
-    subgraph Presentation["Capa de Presentacion (Frontend Web)"]
+    subgraph Presentation["Presentation Layer (Frontend Web)"]
         UI_Cockpit["React 18 + Vite SPA"]
-        DeepCode["DeepCode Explorer (Visor Split-View)"]
-        SonarUI["Componente Fleet Sonar (WebSockets)"]
+        DeepCode["DeepCode Explorer (Split-View Viewer)"]
+        SonarUI["Fleet Sonar Component (WebSockets)"]
         UI_Cockpit --> DeepCode
         UI_Cockpit --> SonarUI
     end
 
-    subgraph Infrastructure_In["Adaptadores de Entrada (Infrastructure In)"]
+    subgraph Infrastructure_In["Inbound Adapters (Infrastructure In)"]
         REST_API["FastAPI HTTP Router (/api/v1)"]
         WS_Endpoint["FastAPI WebSocket Server (/ws/sonar)"]
     end
 
-    subgraph Application["Capa de Aplicacion (Application Services)"]
-        CourseService["CoursePlotterService (Planificador de Rumbo)"]
-        SonarManager["FleetSonarManager (Concentrador de Eventos LAN)"]
-        RepoService["RepoManagementService (Clonacion y Caches)"]
+    subgraph Application["Application Layer (Application Services)"]
+        CourseService["CoursePlotterService (Course Planner)"]
+        SonarManager["FleetSonarManager (LAN Event Hub)"]
+        RepoService["RepoManagementService (Cloning & Caching)"]
     end
 
-    subgraph Domain["Capa de Dominio y Analisis (Core)"]
-        AST_Engine["TreeSitterEngine (Compilador AST Multi-Lenguaje)"]
-        Tarjan_SCC["DependencyGraphAnalyzer (Algoritmo de Tarjan)"]
-        SecretMasker["SecretMasker (Redactor OWASP)"]
+    subgraph Domain["Domain & Analysis Layer (Core)"]
+        AST_Engine["TreeSitterEngine (Multi-Language AST Compiler)"]
+        Tarjan_SCC["DependencyGraphAnalyzer (Tarjan Algorithm)"]
+        SecretMasker["SecretMasker (OWASP Redactor)"]
     end
 
-    subgraph Infrastructure_Out["Adaptadores de Salida (Infrastructure Out)"]
-        OllamaAdapter["ChatOllamaLocal (Inferencia Gemma 4)"]
+    subgraph Infrastructure_Out["Outbound Adapters (Infrastructure Out)"]
+        OllamaAdapter["ChatOllamaLocal (Gemma 4 Inference)"]
         SQLiteRepo["SQLAlchemy Repository (opennavy.db)"]
         EventBus["Local Memory Event Channel"]
     end
@@ -64,82 +64,83 @@ flowchart TD
 
 ---
 
-## 3. Descripcion Detallada de las Capas
+## 3. Detailed Component Breakdown
 
-### A. Capa de Dominio (Core Analysis Engine)
-Reside en `backend/app/analyzers/` y no tiene dependencias de librerías web ni bases de datos:
-* **`treesitter_engine.py`:** Utiliza gramáticas nativas compiladas de Tree-sitter para generar representaciones abstractas de sintaxis en Python, TypeScript, JavaScript, Go y Java. Extrae firmas de métodos, llamadas y directivas de importación sin distorsión por comentarios o literales de cadena.
-* **`dependency_graph.py`:** Construye el grafo dirigido de importaciones y llamadas entre módulos. Implementa el algoritmo de Tarjan para identificar Componentes Fuertemente Conexos (SCC) en tiempo lineal O(V + E), detectando ciclos arquitectónicos (Arrecifes de Código).
-* **`secret_masker.py`:** Escanea y redacta tokens de acceso personal, claves privadas y secretos antes de que cualquier fragmento de código sea procesado por el modelo de lenguaje.
+### A. Domain Layer (Core Analysis Engine)
+Located in `backend/app/analyzers/` with zero external web or database framework dependencies:
+* **`treesitter_engine.py`:** Leverages native compiled Tree-sitter grammars to generate abstract syntax representations across Python, TypeScript, JavaScript, Go, and Java. Extracts function signatures, invocation calls, and import directives cleanly without distortion from comments or string literals.
+* **`dependency_graph.py`:** Constructs the directed module import and call graph. Implements Tarjan's Strongly Connected Components (SCC) algorithm in linear time O(V + E) to pinpoint architectural cycles (Code Reefs).
+* **`secret_masker.py`:** Scans and redacts personal access tokens, private keys, and passwords before any source code snippet reaches the language model.
 
-### B. Capa de Aplicacion (Application Services)
-Orquesta el flujo de negocio y la coordinación de casos de uso:
+### B. Application Layer (Application Services)
+Orchestrates business workflows and cross-cutting use cases:
 * **`CoursePlotterService` (`backend/app/api/v1/endpoints/course.py`):** 
-  1. Recibe la misión técnica (issue o captura de pantalla).
-  2. Invoca a Tree-sitter para correlacionar símbolos candidatos.
-  3. Ejecuta el análisis de Tarjan para calcular el radio de impacto (*blast radius*).
-  4. Formula el prompt estructurado para Google Gemma 4 solicitando salida JSON estricta.
-  5. Notifica al Sonar de Flota el nuevo plan de navegación trazado.
+  1. Ingests technical missions (issue text or error screenshots).
+  2. Calls Tree-sitter to correlate candidate symbols.
+  3. Executes Tarjan analysis to calculate architectural blast radius.
+  4. Builds structured prompts for Google Gemma 4 requesting strict JSON outputs.
+  5. Broadcasts newly plotted navigation blueprints to the Fleet Sonar hub.
 * **`FleetSonarManager` (`backend/app/api/v1/endpoints/sonar.py`):**
-  1. Mantiene el registro en memoria de tripulantes activos en la red local.
-  2. Procesa eventos de navegación (`NAVIGATE`).
-  3. Consulta la matriz topológica para evaluar si dos desarrolladores están inspeccionando módulos acoplados.
-  4. Emite difusiones inmediatas de `COLLISION_ALERT` si se detecta proximidad de conflicto.
+  1. Manages in-memory registries of active crew members on the local network.
+  2. Processes peer navigation events (`NAVIGATE`).
+  3. Consults the topological dependency matrix to check if teammates are modifying coupled modules.
+  4. Dispatches immediate `COLLISION_ALERT` notifications upon proximity conflict detection.
 
-### C. Capa de Infraestructura (Infrastructure Adapters)
-Implementa los puertos definidos por la aplicación:
-* **Inferencia Local (`ChatOllamaLocal` en `backend/app/core/ollama_client.py`):**
-  Mantiene la comunicación HTTP de baja latencia con el demonio local de Ollama en `localhost:11434`, enviando parámetros de temperatura baja (0.1) y manteniendo el modelo cargado en memoria (`keep_alive=-1`).
-* **Persistencia (`backend/app/core/database.py` y `backend/app/models/`):**
-  Almacena metadatos de repositorios, sesiones de exploración y configuraciones en `opennavy.db` utilizando SQLAlchemy ORM.
+### C. Infrastructure Layer (Infrastructure Adapters)
+Implements ports defined by the application interfaces:
+* **Local Inference (`ChatOllamaLocal` in `backend/app/core/ollama_client.py`):**
+  Maintains low-latency HTTP communication with the local Ollama daemon at `localhost:11434`, passing low temperature settings (0.1) and persistent in-memory caching (`keep_alive=-1`).
+* **Persistence (`backend/app/core/database.py` and `backend/app/models/`):**
+  Persists repository metadata, exploration sessions, and settings in `opennavy.db` using SQLAlchemy ORM.
 
-### D. Capa de Presentacion (Web Cockpit)
-Reside en `frontend/` y está construida con React 18, Vite y TypeScript:
-* **`NauticalChart` / `ArchitectureView.tsx`:** Renderiza visualmente el grafo de dependencias y los arrecifes topológicos.
-* **`CoursePlotter` (`CoursePlotterPanel.tsx` / `UnifiedWorkspaceView.tsx`):** Permite ingresar issues de texto o arrastrar capturas de error visuales (multimodal Base64 con Gemma 4), presentando los waypoints resultantes con enlaces interactivos que manipulan el visor de código AST split-view.
-* **`FleetSonarBanner`:** Muestra la presencia en tiempo real de los compañeros en la misma red LAN y despliega alertas visuales de colisión arquitectónica.
+### D. Presentation Layer (Web Cockpit)
+Located in `frontend/` and built with React 18, Vite, and TypeScript:
+* **`NauticalChart` / `ArchitectureView.tsx`:** Renders visual topological dependency graphs and cyclic code reefs.
+* **`CoursePlotter` (`CoursePlotterPanel.tsx` / `UnifiedWorkspaceView.tsx`):** Ingests issues or visual screenshot drops (multimodal Base64 with Gemma 4 Vision) and renders actionable waypoints linked directly to the split-view AST code reader.
+* **`FleetSonarRadar.tsx`:** Renders real-time LAN teammate presence and displays architectural collision alerts.
 
 ---
 
-## 4. Estructura del Arbol de Directorios del Proyecto
+## 4. Directory Structure
 
 ```
 OpenNavy/
-|-- BACKLOG.md                  # Backlog oficial del producto e historias de usuario
-|-- LICENSE                     # Licencia MIT permisiva
-|-- .gitignore                  # Exclusion de artefactos pesados y binarios
+|-- BACKLOG.md                  # Official product and engineering backlog
+|-- LICENSE                     # Permissive MIT License
+|-- ROADMAP.md                  # Engineering Roadmap with 28+ hours planned
+|-- .gitignore                  # Exclusion of heavy artifacts, caches, and secrets
 |-- docs/
-|   |-- ARCHITECTURE.md         # Especificacion maestra de arquitectura de software
-|   |-- OPENNAVY_SPECIFICATION.md # Documento de producto y negocio
+|   |-- ARCHITECTURE.md         # Master software architecture specification
+|   |-- OPENNAVY_SPECIFICATION.md # Product and business specification
 |   `-- adr/                    # Architecture Decision Records (MADR)
 |       |-- 0001-record-architecture-decisions.md
 |       |-- 0002-modular-hexagonal-architecture.md
 |       |-- 0003-local-first-inference-with-gemma4.md
 |       |-- 0004-lan-multiplayer-mesh-with-fastapi-websockets.md
 |       `-- 0005-gitflow-and-conventional-commits.md
-|-- backend/                    # Nucleo de analisis, API y orquestacion
-|   |-- requirements.txt        # Dependencias Python
-|   |-- Dockerfile              # Contenedor de ejecucion independiente
+|-- backend/                    # Core analysis, API, and orchestration
+|   |-- requirements.txt        # Python dependencies
+|   |-- Dockerfile              # Standalone execution container
 |   `-- app/
-|       |-- analyzers/          # Motores deterministas: Tree-sitter y Tarjan
-|       |-- api/                # Enrutadores REST y WebSockets (v1)
-|       |-- core/               # Configuracion y adaptadores de inferencia
-|       |-- models/             # Entidades de base de datos
-|       |-- schemas/            # Contratos de datos tipados (Pydantic)
-|       `-- main.py             # Punto de entrada de la aplicacion FastAPI
-|-- frontend/                   # Interfaz de usuario (React 18 + Vite)
+|       |-- analyzers/          # Deterministic engines: Tree-sitter & Tarjan
+|       |-- api/                # REST routers and WebSockets (v1)
+|       |-- core/               # Configuration and inference adapters
+|       |-- models/             # Database entity models
+|       |-- schemas/            # Typed data contracts (Pydantic)
+|       `-- main.py             # FastAPI application entry point
+|-- frontend/                   # User interface (React 18 + Vite)
 |   |-- package.json
 |   |-- vite.config.ts
-|   `-- src/                    # Componentes de la cabina de mando y visor split-view
-`-- scripts/                    # Utilidades de arranque local y diagnostico
-    |-- start-server.ps1        # Script de 1 clic para host local y tunel
-    `-- test-inference.py       # Prueba de latencia y streaming de Gemma 4
+|   `-- src/                    # Cockpit navigation components and split-view reader
+`-- scripts/                    # Local launch scripts and LAN diagnostic utilities
+    |-- start-server.ps1        # Unified launcher for local host and tunnel
+    `-- test-inference.py       # Gemma 4 streaming latency and test harness
 ```
 
 ---
 
-## 5. Directrices de Contribucion para Desarrolladores Open Source
+## 5. Contribution Guidelines for Open-Source Developers
 
-1. **Aislamiento de Analizadores:** Todo nuevo analizador sintáctico para un lenguaje adicional debe ubicarse dentro de `backend/app/analyzers/` y satisfacer la interfaz de extracción de AST sin acoplarse a capas web.
-2. **Contratos Tipados:** Ninguna entidad debe viajar entre el backend y el frontend sin un esquema Pydantic en Python y su correspondiente interfaz TypeScript en `frontend/src/services/api.ts`.
-3. **Flujo de Trabajo:** Todo desarrollo debe originarse desde la rama `develop` mediante ramas de características `feature/<nombre>` y comitearse bajo el formato de Commits Convencionales sin emojis.
+1. **Analyzer Isolation:** Any new parser for additional programming languages must reside under `backend/app/analyzers/` and adhere to the AST extraction interface without coupling to web transport layers.
+2. **Typed Contracts:** No data structure may travel between backend and frontend without a corresponding Pydantic schema in Python and a matching TypeScript interface in `frontend/src/services/api.ts`.
+3. **Workflow Standards:** All engineering branches must originate from `develop` following the `feature/<name>` naming convention, using Conventional Commits without emojis.

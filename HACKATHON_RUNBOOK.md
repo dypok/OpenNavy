@@ -1,74 +1,74 @@
-# Hackathon Runbook: Servidor Gemma 4 & Cloudflare
+# Hackathon Runbook: Gemma 4 Server & Cloudflare Tunnel
 
-Guía rápida de referencia para el día de la competencia (9:00 AM - 5:30 PM).
+Quick reference operational guide for local team deployments.
 
 ---
 
-## 1. Arrancar el Servidor Central (1 Clic)
+## 1. Starting the Central Host Server (One-Click)
 
-En la máquina anfitriona (la tuya o la de tu compañero), abre **PowerShell** en la carpeta del proyecto y ejecuta:
+On the host machine, open **PowerShell** in the project root and execute:
 
 ```powershell
 .\scripts\start-server.ps1
 ```
 
-* **Qué hace:**
-  1. Inicia el demonio de Ollama con `OLLAMA_ORIGINS=*` y `OLLAMA_KEEP_ALIVE=-1`.
-  2. Pre-carga `gemma4:e4b` en memoria.
-  3. Levanta el túnel de Cloudflare y genera una URL pública segura tipo:
-     `https://ejemplo-palabras-xyz.trycloudflare.com`
+* **What it does:**
+  1. Starts the local Ollama daemon with `OLLAMA_ORIGINS=*` and `OLLAMA_KEEP_ALIVE=-1`.
+  2. Pre-warms and pins `gemma4:e4b` in memory.
+  3. Establishes a secure Cloudflare tunnel and outputs a public endpoint such as:
+     `https://example-words-xyz.trycloudflare.com`
 
-> **Importante:** Copia esa URL y compártela en el chat del equipo.
+> **Note:** Copy the generated URL and distribute it across the team.
 
 ---
 
-## 2. Conexión de los Desarrolladores (Clientes)
+## 2. Developer Client Configuration
 
-Cada integrante del equipo solo necesita configurar la variable de entorno o usar la URL compartida:
+Each team member configures their environment variable to point to the shared host:
 
-### En `.env` de cualquier proyecto (Frontend o Backend):
+### In `.env` (Frontend or Backend):
 ```env
-AI_SERVER_URL=https://tu-url-de-cloudflare.trycloudflare.com/v1
+AI_SERVER_URL=https://your-cloudflare-tunnel.trycloudflare.com/v1
 AI_MODEL_NAME=gemma4:e4b
 AI_FALLBACK_MODEL=gemma4:e2b
 AI_API_KEY=ollama
 ```
 
-### Probar la conexión desde la terminal:
+### Validate Connectivity via CLI:
 ```bash
-python scripts/test-inference.py https://tu-url-de-cloudflare.trycloudflare.com
+python scripts/test-inference.py https://your-cloudflare-tunnel.trycloudflare.com
 ```
 
 ---
 
-## 3. Cambio Rápido de Modelo
+## 3. Dynamic Model Switching
 
-No necesitas reiniciar el servidor para alternar entre modelos. Simplemente cambia el nombre en el cuerpo de la petición:
-- Para máxima calidad / razonamiento de código: `"model": "gemma4:e4b"`
-- Para ultra velocidad / tareas ligeras: `"model": "gemma4:e2b"`
+Restarting the server is not required to switch between tiers. Simply pass the target model name in the JSON payload:
+- For maximum reasoning depth / architecture synthesis: `"model": "gemma4:e4b"`
+- For high-speed / latency-sensitive operations: `"model": "gemma4:e2b"`
 
 ---
 
-## 4. Protocolo de Emergencia ("Plan B")
+## 4. Emergency Contingency Protocol ("Plan B")
 
-Si la laptop host se queda sin batería, se congela o la red colapsa a las 4:00 PM:
-1. Entra a [Google AI Studio](https://aistudio.google.com/) y genera una API key gratuita.
-2. En tu archivo `.env`, cambia únicamente dos líneas:
+In the event of hardware power failure or local Wi-Fi interruption:
+1. Navigate to [Google AI Studio](https://aistudio.google.com/) and obtain an API key.
+2. In your `.env` file, update the following variables:
    ```env
    AI_SERVER_URL=https://generativelanguage.googleapis.com/v1beta/openai/
-   AI_API_KEY=TU_GEMINI_API_KEY
+   AI_API_KEY=YOUR_GEMINI_API_KEY
    AI_MODEL_NAME=gemini-2.5-flash
    ```
-3. Gracias al SDK estándar de OpenAI, todo tu código seguirá funcionando exactamente igual sin cambiar lógica.
+3. Due to OpenAI SDK compatibility standards, all downstream code continues functioning without modifications.
 
 ---
 
-## ⏱️ 5. Hoja de Ruta para las 8.5 Horas
+## 5. Hackathon Operational Timeline
 
-- **09:00 - 10:00:** Servidor levantado, URL compartida, alcance y arquitectura congelados.
-- **10:00 - 13:00:** Lógica central y prompt engineering con Gemma 4.
-- **13:00 - 13:30:** Prueba interna de integración (Endpoint respondiendo en streaming).
-- **13:30 - 15:30:** Conexión de UI y afinamiento visual.
-- **15:30:** **FEATURE FREEZE** (Prohibido añadir código nuevo).
-- **15:30 - 16:30:** Pruebas de los 2 caminos felices para la demo y grabación de video backup de 60 segundos.
-- **16:30 - 17:30:** Presentación (Pitch) de 3 diapositivas y ensayo en vivo.
+- **09:00 - 10:00:** Host server initialized, endpoint shared, architecture baseline locked.
+- **10:00 - 13:00:** Core deterministic engine and Gemma 4 prompt engineering.
+- **13:00 - 13:30:** Integration testing (streaming responses verified).
+- **13:30 - 15:30:** Frontend cockpit connection and visual ergonomics.
+- **15:30:** **FEATURE FREEZE** (Strictly no new features).
+- **15:30 - 16:30:** Happy path verification and backup demo screencast recording.
+- **16:30 - 17:30:** Pitch deck review and presentation rehearsal.

@@ -50,79 +50,79 @@ style: |
 ![width:180px](../assets/logo_opennavy.svg)
 
 # OPENNAVY
-### El Navegador Soberano de Flota para Repositorios Open Source
+### The Sovereign Fleet Navigator for Open Source Codebases
 
 <span class="badge">MLH Hacktoberfest 2026</span>
 <span class="badge">Google DeepMind Gemma 4</span>
 <span class="badge">MIT License</span>
 
-**Equipo:** Daniel Echeverría · Brandon Carranza · Dylan Gamero
+**Team:** Daniel Echeverría · Brandon Carranza · Dylan Gamero
 
 ---
 
-# 1. El Problema: El Muro de Privacidad y la Niebla de Código
+# 1. The Challenge: Compliance Walls and Code Disorientation
 
 <div class="grid">
   <div class="card">
-    <h3 style="color: #F87171; margin-top:0;">🛑 El Muro de Compliance</h3>
-    <p>En banca, salud y defensa, <b>Cursor o Copilot están prohibidos</b> por enviar código a nubes de terceros (SOC2, GDPR).</p>
+    <h3 style="color: #F87171; margin-top:0;">The Compliance Wall</h3>
+    <p>In banking, defense, and healthcare, <b>Cursor and Copilot are prohibited</b> because streaming proprietary code to external clouds violates SOC2 and GDPR.</p>
   </div>
   <div class="card">
-    <h3 style="color: #FB923C; margin-top:0;">🌊 Fatiga en Open Source</h3>
-    <p>El <b>80% de contribuidores abandonan</b> al no poder descifrar arquitecturas de 50.000+ líneas.</p>
+    <h3 style="color: #FB923C; margin-top:0;">Open-Source Attrition</h3>
+    <p>Over <b>80% of newcomers abandon</b> contributions because deciphering 50,000+ lines of unfamiliar architecture takes days.</p>
   </div>
 </div>
 
 <div class="card" style="margin-top: 20px; border-color: #38BDF8;">
   <p style="margin: 0; font-size: 1.15rem;">
-    💡 <b>La Solución OpenNavy:</b> Una cabina de mando local-first impulsada por <b>Google Gemma 4</b> y un radar multijugador LAN sin nube.
+    <b>The OpenNavy Solution:</b> A sovereign, local-first cockpit driven by <b>Google Gemma 4</b> and an air-gapped LAN multiplayer radar.
   </p>
 </div>
 
 ---
 
-# 2. La Trilogía Tecnológica: Demostración en Vivo
+# 2. Technology Trilogy: Live Demonstration
 
 <div class="grid">
   <div class="card">
-    <h3 style="color: #38BDF8; margin-top:0;">🧭 Trazador de Rumbo Multimodal</h3>
-    <p>Ingesta de capturas de error o issues. <b>Gemma 4 Vision</b> razona en local (<code>&lt;|think|&gt;</code>) y emite <b>waypoints exactos</b> con Tree-sitter.</p>
+    <h3 style="color: #38BDF8; margin-top:0;">Multimodal Course Plotter</h3>
+    <p>Ingests issue descriptions or UI error screenshots. <b>Gemma 4 Vision</b> reasons locally (<code>&lt;|think|&gt;</code>) and emits <b>exact waypoints</b> verified by Tree-sitter.</p>
   </div>
   <div class="card">
-    <h3 style="color: #4ADE80; margin-top:0;">🛰️ Sonar de Flota (Malla LAN)</h3>
-    <p>WebSockets en FastAPI sobre Wi-Fi local. Detecta <b>colisiones arquitectónicas</b> con el <b>Algoritmo de Tarjan SCC</b> antes de hacer git commit.</p>
+    <h3 style="color: #4ADE80; margin-top:0;">Fleet Sonar (LAN Mesh)</h3>
+    <p>FastAPI WebSockets over local Wi-Fi. Detects <b>architectural collisions</b> via <b>Tarjan's SCC Algorithm</b> before developers commit code.</p>
   </div>
 </div>
 
 <p style="margin-top: 25px; text-align: center; color: #94A3B8;">
-  ⚡ <i>0 ms de latencia a la nube · 100% Soberano · Sin cuentas requeridas</i>
+  <i>0 ms cloud latency · 100% Sovereign · Zero telemetry or external accounts</i>
 </p>
 
 ---
 
-# 3. Arquitectura Robusta y Modelo de Negocio
+# 3. Robust Architecture and Business Strategy
 
 <div class="grid">
   <div class="card">
-    <h3 style="color: #38BDF8; margin-top:0;">⚙️ Arquitectura Hexagonal</h3>
+    <h3 style="color: #38BDF8; margin-top:0;">Hexagonal Architecture</h3>
     <ul>
-      <li>Tree-sitter AST universal</li>
-      <li>Tarjan SCC (O(|V|+|E|) ciclos)</li>
+      <li>Tree-sitter universal AST parser</li>
+      <li>Tarjan SCC (linear cycle detection)</li>
       <li>Google Gemma 4 (<code>e4b</code> / <code>e2b</code>)</li>
-      <li>FastAPI + React 18 / Tailwind</li>
+      <li>FastAPI + React 18 / Tailwind CSS</li>
     </ul>
   </div>
   <div class="card">
-    <h3 style="color: #FACC15; margin-top:0;">💼 Estrategia Open-Core</h3>
+    <h3 style="color: #FACC15; margin-top:0;">Open-Core Strategy</h3>
     <ul>
-      <li><b>Comunidad (MIT):</b> $0, 100% libre para Hacktoberfest y devs.</li>
-      <li><b>Flota Enterprise:</b> $35 / dev / mes. On-premise para sectores regulados con auditoría ISO 5055.</li>
+      <li><b>Community Edition (MIT):</b> $0, free forever for Hacktoberfest and developers.</li>
+      <li><b>Enterprise Fleet:</b> $35 / seat / month. On-premise for regulated sectors with ISO 5055 audit reports.</li>
     </ul>
   </div>
 </div>
 
 <div style="text-align: center; margin-top: 30px;">
   <span style="font-size: 1.3rem; color: #38BDF8; font-weight: bold;">
-    OpenNavy: La brújula y el radar soberano para el software moderno.
+    OpenNavy: The sovereign compass and fleet radar for modern software engineering.
   </span>
 </div>

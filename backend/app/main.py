@@ -9,9 +9,9 @@ from app.api.v1.api import api_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Inicializar tablas de Base de Datos al arrancar
+    # Initialize database tables on startup
     init_db()
-    # Auto-sembrar repositorio OpenNavy si la base de datos esta vacia
+    # Auto-seed OpenNavy repository if database is empty
     seed_opennavy_repo()
     yield
 
@@ -19,11 +19,11 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title=settings.PROJECT_NAME,
     version=settings.VERSION,
-    description="OpenNavy - The Sovereign Fleet Navigator for Open Source Codebases (Carta Nautica, Trazador de Rumbo y Sonar de Flota).",
+    description="OpenNavy - The Sovereign Fleet Navigator for Open Source Codebases (Nautical Chart, Course Plotter, and Fleet Sonar).",
     lifespan=lifespan,
 )
 
-# Configuración de CORS
+# CORS configuration
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.CORS_ORIGINS,
@@ -32,14 +32,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Montar rutas de API v1
+# Mount API v1 routes
 app.include_router(api_router, prefix=settings.API_V1_STR)
 
 
 @app.get("/", summary="Root Index")
 def root():
     return {
-        "message": f"Bienvenido a {settings.PROJECT_NAME}",
+        "message": f"Welcome to {settings.PROJECT_NAME}",
         "docs_url": "/docs",
         "api_v1": settings.API_V1_STR,
         "health_check": f"{settings.API_V1_STR}/health",
